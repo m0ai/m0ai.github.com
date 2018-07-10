@@ -4,6 +4,10 @@ title: "MathJax with Jekyll"
 date: 2014-02-16
 categories: opinion
 tags: [resources, jekyll]
+
+published: false
+
+
 image: http://gastonsanchez.com/images/blog/mathjax_logo.png
 ---
 

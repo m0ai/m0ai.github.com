@@ -294,3 +294,5 @@ jekyll_admindmin:
     - staticfiles
     - datafiles
     - configuration
+
+theme: jekyll-theme-minimal

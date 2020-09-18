@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Posts on m0ai 의 아카이브</title>
-    <link>http://m0ai.github.io/posts/</link>
-    <description>Recent content in Posts on m0ai 의 아카이브</description>
+    <title>독서감상문 on m0ai 의 아카이브</title>
+    <link>http://m0ai.github.io/tags/%EB%8F%85%EC%84%9C%EA%B0%90%EC%83%81%EB%AC%B8/</link>
+    <description>Recent content in 독서감상문 on m0ai 의 아카이브</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>ko-kr</language>
-    <lastBuildDate>Tue, 14 Jan 2020 00:45:47 +0900</lastBuildDate><atom:link href="http://m0ai.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 14 Jan 2020 00:45:47 +0900</lastBuildDate><atom:link href="http://m0ai.github.io/tags/%EB%8F%85%EC%84%9C%EA%B0%90%EC%83%81%EB%AC%B8/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>나의 여행에 대한 회고</title>
       <link>http://m0ai.github.io/posts/%EB%82%98%EB%8A%94_%EC%99%9C_%EB%AC%B8%ED%95%99_%EC%86%8C%EC%84%A4%EB%93%A4%EC%9D%B4_%EC%96%B4%EB%A0%A4%EC%9B%A0%EC%9D%84%EA%B9%8C/</link>
@@ -16,18 +16,6 @@
       <description>&amp;ldquo;읽다&amp;rdquo; 이 책을 정할 때, 많은 분들이 좋은 책이라고 말씀하시면서 서로 공감하였던 장면이 어렴풋 기억이 납니다.
 프로 독서인이라면 &amp;ldquo;김영하&amp;rdquo; 작가의 책을 읽어보거나 작가의 이름을 한번 쯤은 들어보았을 것 같습니다. 사실 저는 최근 1년 남짓 기간 동안 겨우 책의 재미를 느끼기 시작하였고, 그렇게 1년간 읽은 30권의 책 조차도 전부 자기 계발 서적 혹은 단순한 지식 전달의 서적일 뿐이였습니다. 심지어 &amp;ldquo;읽다&amp;quot;라는 작품을 통해 처음으로 김영하 작가의 글을 경험하였습니다.
 &amp;ldquo;읽다&amp;quot;는 영하 작가가 자신의 독서한 문학들을 주제로 문학의 자연을 탐험해온 경험을 들을 표현합니다.</description>
-    </item>
-    
-    <item>
-      <title>산업기능요원으로 이직하기</title>
-      <link>http://m0ai.github.io/posts/%EC%82%B0%EC%97%85%EA%B8%B0%EB%8A%A5%EC%9A%94%EC%9B%90%EC%9C%BC%EB%A1%9C_%EC%9D%B4%EC%A7%81%ED%95%98%EA%B8%B0/</link>
-      <pubDate>Sat, 28 Jul 2018 00:45:47 +0900</pubDate>
-      
-      <guid>http://m0ai.github.io/posts/%EC%82%B0%EC%97%85%EA%B8%B0%EB%8A%A5%EC%9A%94%EC%9B%90%EC%9C%BC%EB%A1%9C_%EC%9D%B4%EC%A7%81%ED%95%98%EA%B8%B0/</guid>
-      <description>이직 이야기 특성화고를 졸업하여 바로 스타트업에 입사해 산업기능요원으로 특례 복무를 시작하였고 이직 이전에 재직하고 있는 회사 사정과 개인 사유들이 복합적으로 곂쳐 이직을 하게 되었습니다.
-산업기능요원의 신분으로 이직을 준비하고 여러가지 겪었던 생각나는 점들을 남기기 위해 글을 남깁니다.
-28세 요우의 개발자 이직 대탐험이란 글을 읽고 경험을 공유하며 정리해야겠다 생각하여 작성하게 되었습니다.
-생각보다 높은 벽 경쟁 업체 취업 금지 약정 이전에 재직하고 있던, 즉 이직하기 전의 회사에서 약 1년동안 경젱, 동종업체 취업 금지 약정을 적용합니다.</description>
     </item>
     
     <item>

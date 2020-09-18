@@ -3,18 +3,33 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
-    <loc>http://m0ai.github.io/</loc>
-    <lastmod>2020-09-19T00:45:47+09:00</lastmod>
+    <loc>http://m0ai.github.io/categories/</loc>
+    <lastmod>2018-07-28T00:45:47+09:00</lastmod>
   </url>
   
   <url>
-    <loc>http://m0ai.github.io/posts/my-first-post/</loc>
-    <lastmod>2020-09-19T00:45:47+09:00</lastmod>
+    <loc>http://m0ai.github.io/categories/development/</loc>
+    <lastmod>2018-07-28T00:45:47+09:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://m0ai.github.io/</loc>
+    <lastmod>2018-07-28T00:45:47+09:00</lastmod>
   </url>
   
   <url>
     <loc>http://m0ai.github.io/posts/</loc>
-    <lastmod>2020-09-19T00:45:47+09:00</lastmod>
+    <lastmod>2018-07-28T00:45:47+09:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://m0ai.github.io/tags/</loc>
+    <lastmod>2018-07-28T00:45:47+09:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://m0ai.github.io/tags/%EC%82%B0%EC%97%85%EA%B8%B0%EB%8A%A5%EC%9A%94%EC%9B%90/</loc>
+    <lastmod>2018-07-28T00:45:47+09:00</lastmod>
   </url>
   
   <url>
@@ -23,11 +38,18 @@
   </url>
   
   <url>
-    <loc>http://m0ai.github.io/categories/</loc>
+    <loc>http://m0ai.github.io/tags/%EC%9D%B4%EB%A0%A5%EC%84%9C/</loc>
+    <lastmod>2018-07-28T00:45:47+09:00</lastmod>
   </url>
   
   <url>
-    <loc>http://m0ai.github.io/tags/</loc>
+    <loc>http://m0ai.github.io/tags/%EC%9D%B4%EC%A7%81/</loc>
+    <lastmod>2018-07-28T00:45:47+09:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://m0ai.github.io/categories/%EC%9D%B4%EC%A7%81/</loc>
+    <lastmod>2018-07-28T00:45:47+09:00</lastmod>
   </url>
   
 </urlset>

@@ -127,14 +127,14 @@
   <div class="bg-white mb3 pa4 gray overflow-hidden">
     <span class="f6 db">Posts</span>
     <h1 class="f3 near-black">
-      <a href="http://m0ai.github.io/posts/iot_%EB%B2%84%ED%8A%BC_%ED%99%9C%EC%9A%A9%ED%95%98%EA%B8%B01/" class="link black dim">
+      <a href="http://m0ai.github.io/posts/iot_%EB%B2%84%ED%8A%BC_%ED%99%9C%EC%9A%A9%ED%95%98%EA%B8%B0/" class="link black dim">
         놀고 있는 AWS IOT Button을 슬랙 메세지 보내기
       </a>
     </h1>
     <div class="nested-links f5 lh-copy nested-copy-line-height">
-      놀고 있는 AWS IOT Button을 슬랙 메세지 보내기 서두 현재 소속되어 있는 팀의 팀장님께서 어느날 AWS IoT 버튼을 주셨습니다.
- 팀장님: 저 보단 영준님이 더 잘 사용할 수 있을 것 같아요. 나: 오.. 감사합니다. 재미있어 보이는데 한번 어떻게든 써볼게요.
- 라고 말했지만 실은 이 글을 작성하고 있는 이 시간에도 어떻게 활용할지 고민에 빠져 있습니다. 처음에는 AWS 자습서를 보다가 테라폼으로 만들어서 언젠간 쉽게 재활용할 날이 오겠지하고 이 글을 적게되었습니다. 처음 구성할 때 AWS IoT 버튼을 활용하기 위해서 여러가지 AWS Console에 들어가 설정을 해야하고 이
+      놀고 있는 AWS IOT Button 을 활용하기 집에서 방치되어있는 AWS IoT 버튼을 10분을 투자해서 실용적인 장난감으로 만들어봐요. :) 설정하기를 완료하면 aws lambda를 이용하여 간단하게 슬랙 메세지를 보낼 수 있어요.
+필요사항 - terraform 0.13 - python3.9 - 집에서 놀고 있는 AWS IoT 버튼 1개 - aws 계정 설정하기 메세지를 보낼 람다 함수 준비하기 아래 make 명령어를 실행하여 aws 계정에 업로드할 lambda 함수를 준비합니다.
+make configure # lambda에서 사용할 requests 패키지를 설치합니다. make publish # lambda에 업로드할 zip을 생성합니다.
     </div>
   </div>
 </div>

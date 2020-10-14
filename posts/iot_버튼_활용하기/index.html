@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="ko-kr">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    
+    <title>놀고 있는 AWS IOT Button을 슬랙 메세지 보내기 | m0ai 의 아카이브</title>
+    <meta name="viewport" content="width=device-width,minimum-scale=1">
+    <meta name="generator" content="Hugo 0.75.1" />
+    
+    
+      <META NAME="ROBOTS" CONTENT="NOINDEX, NOFOLLOW">
+    
+
+    
+    
+      <link href="/dist/css/app.4fc0b62e4b82c997bb0041217cd6b979.css" rel="stylesheet">
+    
+
+    
+
+    
+      
+
+    
+
+    
+    
+    <meta property="og:title" content="놀고 있는 AWS IOT Button을 슬랙 메세지 보내기" />
+<meta property="og:description" content="놀고 있는 AWS IOT Button 을 활용하기 집에서 방치되어있는 AWS IoT 버튼을 10분을 투자해서 실용적인 장난감으로 만들어봐요. :) 설정하기를 완료하면 aws lambda를 이용하여 간단하게 슬랙 메세지를 보낼 수 있어요.
+필요사항 - terraform 0.13 - python3.9 - 집에서 놀고 있는 AWS IoT 버튼 1개 - aws 계정 설정하기 메세지를 보낼 람다 함수 준비하기 아래 make 명령어를 실행하여 aws 계정에 업로드할 lambda 함수를 준비합니다.
+make configure # lambda에서 사용할 requests 패키지를 설치합니다. make publish # lambda에 업로드할 zip을 생성합니다." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://m0ai.github.io/posts/iot_%EB%B2%84%ED%8A%BC_%ED%99%9C%EC%9A%A9%ED%95%98%EA%B8%B0/" />
+<meta property="article:published_time" content="2019-06-30T22:20:13+09:00" />
+<meta property="article:modified_time" content="2019-06-30T22:20:13+09:00" />
+<meta itemprop="name" content="놀고 있는 AWS IOT Button을 슬랙 메세지 보내기">
+<meta itemprop="description" content="놀고 있는 AWS IOT Button 을 활용하기 집에서 방치되어있는 AWS IoT 버튼을 10분을 투자해서 실용적인 장난감으로 만들어봐요. :) 설정하기를 완료하면 aws lambda를 이용하여 간단하게 슬랙 메세지를 보낼 수 있어요.
+필요사항 - terraform 0.13 - python3.9 - 집에서 놀고 있는 AWS IoT 버튼 1개 - aws 계정 설정하기 메세지를 보낼 람다 함수 준비하기 아래 make 명령어를 실행하여 aws 계정에 업로드할 lambda 함수를 준비합니다.
+make configure # lambda에서 사용할 requests 패키지를 설치합니다. make publish # lambda에 업로드할 zip을 생성합니다.">
+<meta itemprop="datePublished" content="2019-06-30T22:20:13+09:00" />
+<meta itemprop="dateModified" content="2019-06-30T22:20:13+09:00" />
+<meta itemprop="wordCount" content="406">
+
+
+
+<meta itemprop="keywords" content="aws,iot,terraform,python,toyproject," />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="놀고 있는 AWS IOT Button을 슬랙 메세지 보내기"/>
+<meta name="twitter:description" content="놀고 있는 AWS IOT Button 을 활용하기 집에서 방치되어있는 AWS IoT 버튼을 10분을 투자해서 실용적인 장난감으로 만들어봐요. :) 설정하기를 완료하면 aws lambda를 이용하여 간단하게 슬랙 메세지를 보낼 수 있어요.
+필요사항 - terraform 0.13 - python3.9 - 집에서 놀고 있는 AWS IoT 버튼 1개 - aws 계정 설정하기 메세지를 보낼 람다 함수 준비하기 아래 make 명령어를 실행하여 aws 계정에 업로드할 lambda 함수를 준비합니다.
+make configure # lambda에서 사용할 requests 패키지를 설치합니다. make publish # lambda에 업로드할 zip을 생성합니다."/>
+
+	
+  </head>
+
+  <body class="ma0 avenir bg-near-white">
+
+    
+   
+  
+
+  <header>
+    <div class="bg-black">
+      <nav class="pv3 ph3 ph4-ns" role="navigation">
+  <div class="flex-l justify-between items-center center">
+    <a href="/" class="f3 fw2 hover-white no-underline white-90 dib">
+      
+        m0ai 의 아카이브
+      
+    </a>
+    <div class="flex-l items-center">
+      
+
+      
+      
+
+
+
+
+
+
+
+
+<a href="https://github.com/m0ai" target="_blank" class="link-transition github link dib z-999 pt3 pt0-l mr1" title="Github link" rel="noopener" aria-label="follow on Github——Opens in a new window">
+  <svg  height="32px"  style="enable-background:new 0 0 512 512;" version="1.1" viewBox="0 0 512 512" width="32px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" >
+  <path d="M256,32C132.3,32,32,134.8,32,261.7c0,101.5,64.2,187.5,153.2,217.9c11.2,2.1,15.3-5,15.3-11.1   c0-5.5-0.2-19.9-0.3-39.1c-62.3,13.9-75.5-30.8-75.5-30.8c-10.2-26.5-24.9-33.6-24.9-33.6c-20.3-14.3,1.5-14,1.5-14   c22.5,1.6,34.3,23.7,34.3,23.7c20,35.1,52.4,25,65.2,19.1c2-14.8,7.8-25,14.2-30.7c-49.7-5.8-102-25.5-102-113.5   c0-25.1,8.7-45.6,23-61.6c-2.3-5.8-10-29.2,2.2-60.8c0,0,18.8-6.2,61.6,23.5c17.9-5.1,37-7.6,56.1-7.7c19,0.1,38.2,2.6,56.1,7.7   c42.8-29.7,61.5-23.5,61.5-23.5c12.2,31.6,4.5,55,2.2,60.8c14.3,16.1,23,36.6,23,61.6c0,88.2-52.4,107.6-102.3,113.3   c8,7.1,15.2,21.1,15.2,42.5c0,30.7-0.3,55.5-0.3,63c0,6.1,4,13.3,15.4,11C415.9,449.1,480,363.1,480,261.7   C480,134.8,379.7,32,256,32z"/>
+</svg>
+
+<span class="new-window"><svg  height="8px"  style="enable-background:new 0 0 1000 1000;" version="1.1" viewBox="0 0 1000 1000" width="8px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" >
+<path d="M598 128h298v298h-86v-152l-418 418-60-60 418-418h-152v-86zM810 810v-298h86v298c0 46-40 86-86 86h-596c-48 0-86-40-86-86v-596c0-46 38-86 86-86h298v86h-298v596h596z" style="fill-rule:evenodd;clip-rule:evenodd;fill:;"/>
+</svg>
+</span></a>
+
+
+<a href="https://gitlab.com/m0ai" target="_blank" class="link-transition gitlab link dib z-999 pt3 pt0-l mr1" title="Gitlab link" rel="noopener" aria-label="follow on Gitlab——Opens in a new window">
+  <svg  height="32px"  style="enable-background:new 0 0 512 512;" version="1.1" viewBox="0 0 512 512" width="32px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg"><path d="M29.782 199.732L256 493.714 8.074 309.699c-6.856-5.142-9.712-13.996-7.141-21.993l28.849-87.974zm75.405-174.806c-3.142-8.854-15.709-8.854-18.851 0L29.782 199.732h131.961L105.187 24.926zm56.556 174.806L256 493.714l94.257-293.982H161.743zm349.324 87.974l-28.849-87.974L256 493.714l247.926-184.015c6.855-5.142 9.711-13.996 7.141-21.993zm-85.404-262.78c-3.142-8.854-15.709-8.854-18.851 0l-56.555 174.806h131.961L425.663 24.926z"></path></svg>
+
+<span class="new-window"><svg  height="8px"  style="enable-background:new 0 0 1000 1000;" version="1.1" viewBox="0 0 1000 1000" width="8px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" >
+<path d="M598 128h298v298h-86v-152l-418 418-60-60 418-418h-152v-86zM810 810v-298h86v298c0 46-40 86-86 86h-596c-48 0-86-40-86-86v-596c0-46 38-86 86-86h298v86h-298v596h596z" style="fill-rule:evenodd;clip-rule:evenodd;fill:;"/>
+</svg>
+</span></a>
+
+
+
+
+
+
+
+    </div>
+  </div>
+</nav>
+
+    </div>
+  </header>
+
+
+
+    <main class="pb7" role="main">
+      
+  
+  <article class="flex-l flex-wrap justify-between mw8 center ph3">
+    <header class="mt4 w-100">
+      <aside class="instapaper_ignoref b helvetica tracked">
+          
+        POSTS
+      </aside>
+      
+
+
+
+
+  <div id="sharing" class="mt3">
+
+    
+    <a href="https://www.facebook.com/sharer.php?u=http://m0ai.github.io/posts/iot_%EB%B2%84%ED%8A%BC_%ED%99%9C%EC%9A%A9%ED%95%98%EA%B8%B0/" class="facebook no-underline" aria-label="share on Facebook">
+      <svg height="32px"  style="enable-background:new 0 0 67 67;" version="1.1" viewBox="0 0 67 67" width="32px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M28.765,50.32h6.744V33.998h4.499l0.596-5.624h-5.095  l0.007-2.816c0-1.466,0.14-2.253,2.244-2.253h2.812V17.68h-4.5c-5.405,0-7.307,2.729-7.307,7.317v3.377h-3.369v5.625h3.369V50.32z   M33,64C16.432,64,3,50.569,3,34S16.432,4,33,4s30,13.431,30,30S49.568,64,33,64z" style="fill-rule:evenodd;clip-rule:evenodd;"/></svg>
+
+    </a>
+
+    
+    
+    <a href="https://twitter.com/share?url=http://m0ai.github.io/posts/iot_%EB%B2%84%ED%8A%BC_%ED%99%9C%EC%9A%A9%ED%95%98%EA%B8%B0/&amp;text=%eb%86%80%ea%b3%a0%20%ec%9e%88%eb%8a%94%20AWS%20IOT%20Button%ec%9d%84%20%ec%8a%ac%eb%9e%99%20%eb%a9%94%ec%84%b8%ec%a7%80%20%eb%b3%b4%eb%82%b4%ea%b8%b0" class="twitter no-underline" aria-label="share on Twitter">
+      <svg height="32px"  style="enable-background:new 0 0 67 67;" version="1.1" viewBox="0 0 67 67" width="32px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M37.167,22.283c-2.619,0.953-4.274,3.411-4.086,6.101  l0.063,1.038l-1.048-0.127c-3.813-0.487-7.145-2.139-9.974-4.915l-1.383-1.377l-0.356,1.017c-0.754,2.267-0.272,4.661,1.299,6.271  c0.838,0.89,0.649,1.017-0.796,0.487c-0.503-0.169-0.943-0.296-0.985-0.233c-0.146,0.149,0.356,2.076,0.754,2.839  c0.545,1.06,1.655,2.097,2.871,2.712l1.027,0.487l-1.215,0.021c-1.173,0-1.215,0.021-1.089,0.467  c0.419,1.377,2.074,2.839,3.918,3.475l1.299,0.444l-1.131,0.678c-1.676,0.976-3.646,1.526-5.616,1.568  C19.775,43.256,19,43.341,19,43.405c0,0.211,2.557,1.397,4.044,1.864c4.463,1.377,9.765,0.783,13.746-1.568  c2.829-1.673,5.657-5,6.978-8.221c0.713-1.716,1.425-4.851,1.425-6.354c0-0.975,0.063-1.102,1.236-2.267  c0.692-0.678,1.341-1.419,1.467-1.631c0.21-0.403,0.188-0.403-0.88-0.043c-1.781,0.636-2.033,0.551-1.152-0.402  c0.649-0.678,1.425-1.907,1.425-2.267c0-0.063-0.314,0.042-0.671,0.233c-0.377,0.212-1.215,0.53-1.844,0.72l-1.131,0.361l-1.027-0.7  c-0.566-0.381-1.361-0.805-1.781-0.932C39.766,21.902,38.131,21.944,37.167,22.283z M33,64C16.432,64,3,50.569,3,34S16.432,4,33,4  s30,13.431,30,30S49.568,64,33,64z" style="fill-rule:evenodd;clip-rule:evenodd;fill:;"/></svg>
+
+    </a>
+
+    
+    <a href="https://www.linkedin.com/shareArticle?mini=true&amp;url=http://m0ai.github.io/posts/iot_%EB%B2%84%ED%8A%BC_%ED%99%9C%EC%9A%A9%ED%95%98%EA%B8%B0/&amp;title=%eb%86%80%ea%b3%a0%20%ec%9e%88%eb%8a%94%20AWS%20IOT%20Button%ec%9d%84%20%ec%8a%ac%eb%9e%99%20%eb%a9%94%ec%84%b8%ec%a7%80%20%eb%b3%b4%eb%82%b4%ea%b8%b0" class="linkedin no-underline" aria-label="share on LinkedIn">
+      <svg  height="32px"  style="enable-background:new 0 0 65 65;" version="1.1" viewBox="0 0 65 65" width="32px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <path d="M50.837,48.137V36.425c0-6.275-3.35-9.195-7.816-9.195  c-3.604,0-5.219,1.983-6.119,3.374V27.71h-6.79c0.09,1.917,0,20.427,0,20.427h6.79V36.729c0-0.609,0.044-1.219,0.224-1.655  c0.49-1.22,1.607-2.483,3.482-2.483c2.458,0,3.44,1.873,3.44,4.618v10.929H50.837z M22.959,24.922c2.367,0,3.842-1.57,3.842-3.531  c-0.044-2.003-1.475-3.528-3.797-3.528s-3.841,1.524-3.841,3.528c0,1.961,1.474,3.531,3.753,3.531H22.959z M34,64  C17.432,64,4,50.568,4,34C4,17.431,17.432,4,34,4s30,13.431,30,30C64,50.568,50.568,64,34,64z M26.354,48.137V27.71h-6.789v20.427  H26.354z" style="fill-rule:evenodd;clip-rule:evenodd;fill:;"/>
+</svg>
+
+    </a>
+  </div>
+
+
+      <h1 class="f1 athelas mt3 mb1">놀고 있는 AWS IOT Button을 슬랙 메세지 보내기</h1>
+      
+      
+      <time class="f6 mv4 dib tracked" datetime="2019-06-30T22:20:13+09:00">June 30, 2019</time>
+
+      
+      
+    </header>
+    <div class="nested-copy-line-height lh-copy serif f4 nested-links nested-img mid-gray pr4-l w-two-thirds-l"><h1 id="놀고-있는-aws-iot-button-을-활용하기">놀고 있는 AWS IOT Button 을 활용하기</h1>
+<p>집에서 방치되어있는 AWS IoT 버튼을 10분을 투자해서 실용적인 장난감으로 만들어봐요. :)
+설정하기를 완료하면 aws lambda를 이용하여 간단하게 슬랙 메세지를 보낼 수 있어요.</p>
+<h1 id="필요사항">필요사항</h1>
+<pre><code>- terraform 0.13
+- python3.9
+- 집에서 놀고 있는 AWS IoT 버튼 1개
+-  aws 계정
+</code></pre><h1 id="설정하기">설정하기</h1>
+<h2 id="메세지를-보낼-람다-함수-준비하기">메세지를 보낼 람다 함수 준비하기</h2>
+<p>아래 <code>make</code> 명령어를 실행하여 aws 계정에 업로드할 lambda 함수를 준비합니다.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">make configure <span style="color:#75715e"># lambda에서 사용할 requests 패키지를 설치합니다.</span>
+make publish   <span style="color:#75715e"># lambda에 업로드할 zip을 생성합니다.</span>
+</code></pre></div><h2 id="aws-인프라-구성하기">AWS 인프라 구성하기</h2>
+<p>테라폼을 사용해서 AWS 인프라를 구성할 것 입니다. 복잡하게 콘솔에서 자원을 생성하지 않고 간단한 명령어로 메세지를 보내는 람다 함수, 역할 권한을 생성할 수 있습니다.</p>
+<p>사전에 <code>AWS_PROFILE</code> 환경변수를 설정하여 정상적으로 커맨드라인에서 aws 자원에 접근가능하도록 사전 설정이 필요합니다. 만약 이러한 사전 설정이 되어있지 않으면  <a href="https://docs.aws.amazon.com/ko_kr/cli/latest/userguide/cli-configure-profiles.html">AWS Command Line Interface 설정하기</a> 문서를 참고하여 권한 설정을 완료해야합니다.</p>
+<p><code>AWS_PROFILE</code> 설정이 완료되었다면 내 환경에 맞도록 테라폼 파일을 수정해야합니다. 아래는 <code>./terraform/main.tf</code> 에 있는 내용입니다. 해당 파일의 내용을 수정해서 사용하도록 합니다. 아래의 값들을 변경해야합니다.</p>
+<ul>
+<li>slack_incomming_hook_url</li>
+</ul>
+<p><code>message</code> 에 정의되어 있는 <code>single_click</code>, <code>double_click</code>, <code>long_click</code> 은 버튼을 눌렀을 시 슬랙으로 발송될 문자입니다. 적절한 값으로 변경해서 사용하면 더 재미있을거에요. :)</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-hcl" data-lang="hcl"><span style="color:#75715e"># ./terraform/main.tf
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">provider</span> <span style="color:#e6db74">&#34;aws&#34;</span> {
+  region  <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;ap-northeast-2&#34;</span>
+}
+
+<span style="color:#66d9ef">terraform</span> {
+  required_version <span style="color:#f92672">=</span> &#34;&gt;<span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>.<span style="color:#ae81ff">13</span><span style="color:#960050;background-color:#1e0010">&#34;</span>
+  <span style="color:#66d9ef">required_providers</span> {
+    aws <span style="color:#f92672">=</span> {
+      source <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;hashicorp/aws&#34;</span>
+    }
+  }
+}
+
+
+<span style="color:#66d9ef">module</span> <span style="color:#e6db74">&#34;simple-iot-button-to-slack&#34;</span> {
+  source <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;https://github.com/m0ai/IotButton2Slack//modules/simple-iot-button-to-slack&#34;</span>
+
+  slack_incomming_hook_url <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;YOUR_INCOMMING_WEBHOOK_URL&#34;</span>
+
+  lambda <span style="color:#f92672">=</span> {
+    function_name <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;iot_button_2_slack_notification&#34;</span>
+    filename <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;../lambda.zip&#34;</span>
+    handler<span style="color:#f92672">=</span>  <span style="color:#e6db74">&#34;lambda_function.lambda_handler&#34;</span>
+    runtime <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;python3.8&#34;</span>
+  }
+
+  message <span style="color:#f92672">=</span> {
+    single_click <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Single Click&#34;</span>
+    double_click <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Double Click&#34;</span>
+    long_click   <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Long Click&#34;</span>
+  }
+}
+</code></pre></div><p><code>/terraform/main.tf</code> 파일이 변경이 완료되고 해당 자원을 AWS에 배포하는 과정이 필요합니다. 방금 수정한 테라폼 파일이 있는 경로에 들어가 아래의 테라폼 명령어를 실행합니다.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">cd ./terraform
+terraform plan
+terraform apply
+</code></pre></div><p>정상적으로 <code>terraform apply</code> 과정이 완료되었으면 슬랙에 메세지를 보낼 lambda 함수가 준비되어 있는 상태가 됩니다. 하지만 현재 IoT 버튼과 lambda 사이에는 어떠한 연결고리가 존재하지 않습니다.</p>
+<p>불행하게도 이러한 연결고리를 terraform 으로 한번에 설정할 수 있으면 좋겠지만, 아직 (2020.10) 기준으로 lambda 와 iot 버튼을 연동하기에는 너무나 벅찬 과정을 거쳐야합니다. 그렇기에 해당 과정은 수동으로 진행하는 것이 건강에 이롭습니다. 😂</p>
+<h2 id="iot-버튼과-인프라-연결하기">IoT 버튼과 인프라 연결하기</h2>
+<p><a href="https://ap-northeast-2.console.aws.amazon.com/lambda/home?">aws lambda 홈페이지</a>에 접속하여 테라폼으로 생성된 <code>iot_button_2_slack_notification</code> 함수를 확인할 수 있습니다. 해당 함수를 눌러 <code>Configuration</code> 매뉴에 접속합니다. 이에 IoT 버튼과의 연동을 의해 <code>Add Trigger</code> 을 눌러서 트리거 설정을 진행해야합니다.</p>
+<p>이후 섹션에서 필요한 항목(Device Serial Number)을 채워 <code>인증서 및 키 생성</code> 버튼을 누릅니다 . 그러면 아래와 인증서를 설정하여 IoT 버튼에 생명을 불어넣는 작업을 진행하면 버튼과 람다 함수의 연결이 완료됩니다.</p>
+<p><img src="https://github.com/m0ai/IotButton2Slack/raw/master/img/iot-button-configure-page.png" alt="image-20201015030304158"></p>
+<p>완료되었습니다. 이제 버튼을 눌러 버튼을 사용해봅시다 ^0^</p>
+<h1 id="결과">결과</h1>
+<p><img src="https://github.com/m0ai/IotButton2Slack/raw/master/img/result.png" alt="image-20201015031139768"></p>
+<h2 id="inspired-by">Inspired by</h2>
+<ul>
+<li><a href="http://woowabros.github.io/study/2016/10/28/woowahan_chime_bell.html">우아한 형제들 - 차임벨</a></li>
+<li><a href="https://medium.com/daangn/%ED%9A%8C%EC%82%AC-%ED%99%94%EB%B6%84%EC%97%90-%EC%A3%BC%EA%B8%B0%EC%A0%81%EC%9C%BC%EB%A1%9C-%EB%AC%BC%EC%A3%BC%EA%B8%B0-aws-iot-%EB%B2%84%ED%8A%BC-%ED%99%9C%EC%9A%A9-%EC%82%AC%EB%A1%80-99978e57a59c">당근마켓 - 화분 물주기 알림이</a></li>
+</ul>
+<ul class="pa0">
+  
+   <li class="list">
+     <a href="/tags/aws" class="link f5 grow no-underline br-pill ba ph3 pv2 mb2 dib black sans-serif">aws</a>
+   </li>
+  
+   <li class="list">
+     <a href="/tags/iot" class="link f5 grow no-underline br-pill ba ph3 pv2 mb2 dib black sans-serif">iot</a>
+   </li>
+  
+   <li class="list">
+     <a href="/tags/terraform" class="link f5 grow no-underline br-pill ba ph3 pv2 mb2 dib black sans-serif">terraform</a>
+   </li>
+  
+   <li class="list">
+     <a href="/tags/python" class="link f5 grow no-underline br-pill ba ph3 pv2 mb2 dib black sans-serif">python</a>
+   </li>
+  
+   <li class="list">
+     <a href="/tags/toyproject" class="link f5 grow no-underline br-pill ba ph3 pv2 mb2 dib black sans-serif">toyproject</a>
+   </li>
+  
+</ul>
+<div class="mt6 instapaper_ignoref">
+      
+      
+      </div>
+    </div>
+
+    <aside class="w-30-l mt6-l">
+
+
+
+
+</aside>
+
+  </article>
+
+    </main>
+    <footer class="bg-black bottom-0 w-100 pa3" role="contentinfo">
+  <div class="flex justify-between">
+  <a class="f4 fw4 hover-white no-underline white-70 dn dib-ns pv2 ph3" href="http://m0ai.github.io/" >
+    &copy;  m0ai 의 아카이브 2020 
+  </a>
+    <div>
+
+
+
+
+
+
+
+
+<a href="https://github.com/m0ai" target="_blank" class="link-transition github link dib z-999 pt3 pt0-l mr1" title="Github link" rel="noopener" aria-label="follow on Github——Opens in a new window">
+  <svg  height="32px"  style="enable-background:new 0 0 512 512;" version="1.1" viewBox="0 0 512 512" width="32px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" >
+  <path d="M256,32C132.3,32,32,134.8,32,261.7c0,101.5,64.2,187.5,153.2,217.9c11.2,2.1,15.3-5,15.3-11.1   c0-5.5-0.2-19.9-0.3-39.1c-62.3,13.9-75.5-30.8-75.5-30.8c-10.2-26.5-24.9-33.6-24.9-33.6c-20.3-14.3,1.5-14,1.5-14   c22.5,1.6,34.3,23.7,34.3,23.7c20,35.1,52.4,25,65.2,19.1c2-14.8,7.8-25,14.2-30.7c-49.7-5.8-102-25.5-102-113.5   c0-25.1,8.7-45.6,23-61.6c-2.3-5.8-10-29.2,2.2-60.8c0,0,18.8-6.2,61.6,23.5c17.9-5.1,37-7.6,56.1-7.7c19,0.1,38.2,2.6,56.1,7.7   c42.8-29.7,61.5-23.5,61.5-23.5c12.2,31.6,4.5,55,2.2,60.8c14.3,16.1,23,36.6,23,61.6c0,88.2-52.4,107.6-102.3,113.3   c8,7.1,15.2,21.1,15.2,42.5c0,30.7-0.3,55.5-0.3,63c0,6.1,4,13.3,15.4,11C415.9,449.1,480,363.1,480,261.7   C480,134.8,379.7,32,256,32z"/>
+</svg>
+
+<span class="new-window"><svg  height="8px"  style="enable-background:new 0 0 1000 1000;" version="1.1" viewBox="0 0 1000 1000" width="8px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" >
+<path d="M598 128h298v298h-86v-152l-418 418-60-60 418-418h-152v-86zM810 810v-298h86v298c0 46-40 86-86 86h-596c-48 0-86-40-86-86v-596c0-46 38-86 86-86h298v86h-298v596h596z" style="fill-rule:evenodd;clip-rule:evenodd;fill:;"/>
+</svg>
+</span></a>
+
+
+<a href="https://gitlab.com/m0ai" target="_blank" class="link-transition gitlab link dib z-999 pt3 pt0-l mr1" title="Gitlab link" rel="noopener" aria-label="follow on Gitlab——Opens in a new window">
+  <svg  height="32px"  style="enable-background:new 0 0 512 512;" version="1.1" viewBox="0 0 512 512" width="32px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg"><path d="M29.782 199.732L256 493.714 8.074 309.699c-6.856-5.142-9.712-13.996-7.141-21.993l28.849-87.974zm75.405-174.806c-3.142-8.854-15.709-8.854-18.851 0L29.782 199.732h131.961L105.187 24.926zm56.556 174.806L256 493.714l94.257-293.982H161.743zm349.324 87.974l-28.849-87.974L256 493.714l247.926-184.015c6.855-5.142 9.711-13.996 7.141-21.993zm-85.404-262.78c-3.142-8.854-15.709-8.854-18.851 0l-56.555 174.806h131.961L425.663 24.926z"></path></svg>
+
+<span class="new-window"><svg  height="8px"  style="enable-background:new 0 0 1000 1000;" version="1.1" viewBox="0 0 1000 1000" width="8px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" >
+<path d="M598 128h298v298h-86v-152l-418 418-60-60 418-418h-152v-86zM810 810v-298h86v298c0 46-40 86-86 86h-596c-48 0-86-40-86-86v-596c0-46 38-86 86-86h298v86h-298v596h596z" style="fill-rule:evenodd;clip-rule:evenodd;fill:;"/>
+</svg>
+</span></a>
+
+
+
+
+
+
+</div>
+  </div>
+</footer>
+
+    
+
+  <script src="/dist/js/app.3fc0f988d21662902933.js"></script>
+
+
+  </body>
+</html>
